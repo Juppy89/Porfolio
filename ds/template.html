@@ -4,7 +4,12 @@
 <head>
     <title>Title of Your Page</title>
     <script>
-
+        function add() {
+            let firstNum = document.getElementById("input1").value
+            let secNum = document.getElementById("input2").value
+            let results = document.getElementById("result");
+            results.innerHTML = firstNum + secNum;
+        }
 
     </script>
 
@@ -15,7 +20,20 @@
 </head>
 
 <body>
-    <p>Hello</p>
+
+
+
+    <div class="simpleCalcBody">
+        <div>
+            <input type="text" id="input1">
+            <input type="text" id="input2">
+        </div>
+
+        <button id="plusButton" onclick="add">+</button>
+        <button id="subButton()" onclick="subtract">-</button> Result:
+        <span id="result"></span>
+    </div>
 </body>
+
 
 </html>
