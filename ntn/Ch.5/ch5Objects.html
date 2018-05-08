@@ -1,0 +1,98 @@
+Examples: “const name = 'Iron Man'; const realName = 'Tony Stark'; // long way const ironMan = ( name: name, realName: realName }; // short ES6 way const ironMan = { name, realName };” const ironMan = {name, realName}; superman['name'] superman["real" + " " + "name"] const hulk = {name: 'Hulk', ['catch' + 'phrase']: 'Hulk Smash!'}; {name: 'Hulk', catchPhrase: 'Hulk Smash!'}
+
+<!--Checking if properties or methods exist:-->
+
+'city' in superman;
+<< false superman.city !==u ndefined; << false <!--returns properties that belong to that particular object-->
+    superman.hasOwnProperty('city');
+    << false superman.hasOwnProperty( 'name'); << true <!--finding all of the properties of an Object-->
+        “for(const key in superman) { console.log(key + ": " + superman[key]); }
+        << "name: Superman" << "real name: Clark Kent" << "height: 75" << "weight: 235" << "hero: true" << "villain: false" << "allies: Batman,Supergirl,Superboy" << "fly: function (){
+console.log(\"Up, up and away!\ ");
+}”
+<!--change value of real name property-->
+superman['real name'] = 'Kal-El';
+<<  'Kal-El'
+<!--remove properties-->
+delete superman.fly
+<<  true
+<!--Nested Objects-->
+const jla = {
+superman: { realName: 'Clark Kent' },
+batman: { realName: 'Bruce Wayne' },
+wonderWoman: { realName: 'Diana Prince' }, flash: { realName: 'Barry Allen' }, aquaman: { realName: 'Arthur Curry' }, } jla.wonderWoman.realName << "Diana Prince "
+
+<!--can mix the different notations-->
+jla['flash']['realName']
+<< "Barry Allen "
+
+jla.aquaman['realName']
+<< "Arthur Curry "
+
+const thor = {name: 'Thor'
+//more properties here
+};
+const cloneThor = thor;
+cloneThor.name = 'Clor';
+thor.name
+<<  'Clor'
+//wrong
+
+b = 1;
+b = a;
+<!--a and b will have value of 1, but if b is changed a won't be affected-->
+
+function greet({greeting,name,age}) {
+return `${greeting}! My name is ${name} and I am ${age} years old.`;
+}
+
+<!--dice object-->
+const dice = {
+sides: 6,
+roll() {
+return Math.floor(this.sides * Math.random()) + 1;
+}
+}
+
+<!--built in math function-->
+Math.PI // The ratio of the circumference and diameter of a circle
+<< 3.141592653589793
+
+Math.SQRT2 // The square root of 2
+<< 1.4142135623730951
+Math.SQRT1_2 // The reciprocal of the square root of 2
+<< 0.7071067811865476
+
+Math.E // Euler's constant
+<< 2.718281828459045
+
+Math.LN2 // The natural logarithm of 2
+<< 0.6931471805599453
+
+Math.LN10 // The natural logarithm of 10
+<< 2.302585092994046
+
+Math.LOG2E // Log base 2 of Euler's constant
+<< 1.4426950408889634
+
+Math.LOG10E // Log base 10 of Euler's constant
+<< 0.4342944819032518
+Math.random();
+<< 0.7881292373487821
+
+<!--Date Function-->
+
+const today = new Date();
+today.toString();
+<< 'Tues Feb 14 2017 16:35:18 GMT+0000 (GMT)'
+
+diwali.getDay(); // it's on a Thursday
+<< 4
+diwali.getDate(); // it's on the 19th
+<< 19
+diwali.getMonth(); // it's in October
+<< 9
+diwali.getYear(); // broken for years after 2000
+<< 117
+diwali.getFullYear(); // use this instead
+<< 2017

@@ -1,0 +1,24 @@
+Different Elements getElementById getElementByClassName getElementsByTagName querySelector querySelectorAll DOM is an HTML document with network of connected nodes that form a tree-like structure. Document.body returns the body element of a web page, as we saw in the previous example. Document.images returns a node list of all the images contained in the document. Document.links returns a node list of all the <a> elements and <area> elements that have an href attribute.
+
+    Document.anchors returns a node list of all the <a> elements that have a name attribute.
+
+    Document.forms returns a node list of all the forms in the document.
+
+    Document.body returns the body element of a web page, as we saw in the previous example.
+
+    Document.images returns a node list of all the images contained in the document.
+
+    Document.links returns a node list of all the <a> elements and <area> elements that have an href attribute.
+
+    Document.anchors returns a node list of all the <a> elements that have a name attribute.
+
+    Document.forms returns a node list of all the forms in the document.
+
+<!--    returns all child nodes of the element with an id of roster-->
+    const heroes = document.getElementById('roster');
+
+    heroes.childNodes
+    << NodeList [#text "
+    ", <li class="hero">, #text "
+    ", <li id="bats">, #text "
+    ", <li class="hero">, #text "
