@@ -1,0 +1,26 @@
+EVENT LISTENERS
+
+<!--Basic layout of a listener-->
+
+if (click) { doSomething(); }
+else {
+// carry on with rest of the program }
+
+document.body.addEventListener("click", doSomething);
+
+
+<!--This code will attach an event listener to the docoment's body:-->
+
+document.body.addEventListener('click', doSomething);
+
+addEventListener('click', () => alert('You Clicked!));
+
+<!--Alternatively, a named function could be declared and then referenced in the event listener:-->
+
+function doSomething() {
+alert('You Clicked!);
+}
+
+addEventListener('click', doSomething);
+
+
