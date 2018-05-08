@@ -22,3 +22,96 @@ Different Elements getElementById getElementByClassName getElementsByTagName que
     ", <li class="hero">, #text "
     ", <li id="bats">, #text "
     ", <li class="hero">, #text "
+
+    wonderWoman.setAttribute('class', 'villain');
+    << undefined
+
+    wonderWoman.getAttribute('class');
+    << "villain”
+
+    “If an element does not have an attribute, the setAttribute method can be used to add it to the element. ”
+
+    wonderWoman.setAttribute('id','amazon');
+
+    wonderWoman.getAttribute('id');
+    << 'amazon'
+
+    wonderWoman.classList.toggle('hero'); // will remove the 'hero' class
+    << false
+
+    wonderWoman.classList.toggle('sport'); // will add the 'hero' class back
+    << true
+
+    heroes.insertBefore(aquaman,wonderWoman);
+
+Will insert aquaman before wonderwoman
+
+    An element can be removed from a page using the removeChild() method.
+
+    To put it back
+    heroes.appendChild(aquaman);
+
+    h1.innerHTML = 'Suicide Squad';
+
+    You can bring in id items
+
+    heroes.innerHTML = '<li>Harley Quinn</li><li>Deadshot</li><li>Killer Croc</li><li>Enchantress</li><li>Captain Boomerang</li><li>Katana</li><li>Slipknot</li>';
+
+
+    const heroes = document.getElementById('roster');
+
+    const list = heroes.children;
+
+    list.length
+    << 3
+
+
+<!--    remove batman element-->
+
+    const batman = document.getElementById('bats');
+    << undefined
+
+    heroes.removeChild(batman);
+
+    list.length;
+    << 2
+
+
+    UPDATING CSS
+
+<!--    add red border to superman element with following code-->
+
+    const heroes = document.getElementById('roster');
+    const superman = heroes.children[0];
+
+    superman.style.border = "red 2px solid";
+    << "red 2px solid
+
+<!--    change color of superman in the following ways-->
+
+    superman.style.backgroundColor = 'blue';
+    << "blue"
+
+    superman.style['background color'] = 'blue';
+    << "blue”
+
+<!--    You can make elements appear and disappear on the page-->
+
+<!--    Superman element is hidden with the following code-->
+
+    superman.style.display = 'none';
+    << "none"
+<!--To make it reappear-->
+
+    superman.style.display = 'block';
+    << "block"
+getComputedStyle() gets style info that is given as a parameter.
+
+<!--    To see all styles applied to the superman element, tuou could use the following:-->
+
+    getComputedStyle(superman);
+    << CSSStyleDeclaration {0: "alt", 1: "animation-delay", 2: "animation-direction", 3: "animation-duration", 4: "animation-fill-mode", 5: "animation-iteration-count", 6: "animation-name", 7: "animation-play-state", 8: "animation-timing-function", 9: "background-attachment", …}
+<!--To find color property-->
+
+    getComputedStyle(superman).getPropertyCSSValue('color').cssText;
+    << "rgb(0, 0, 0)
