@@ -6,3 +6,11 @@ function get_todos() {
     }
     return todos;
 }
+function add() {
+    let task = document.getElementById('task').value;
+    let todos = get_todos();
+    todos.push(task);
+    localStorage.setItem('todo', JSON.stringify(todos));
+    show();
+    return false;
+}
