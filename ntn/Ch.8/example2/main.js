@@ -2,6 +2,7 @@ const form = document.forms['hero'];
 form.addEventListener('submit', makeHero, false);
 
 function makeHero(event) {
+    hero.realName = form.realname.value;
 
     event.preventDefault(); // prevent the form from being submitted
 
@@ -11,4 +12,10 @@ function makeHero(event) {
 
     alert(JSON.stringify(hero)); // convert object to JSON string and display in alert dialog
     return hero;
+    hero.powers = [];
+    for (let i=0; i < form.powers.length; i++) {
+        if (form.powers[i].checked) {
+            hero.powers.push(form.powers[i].value);
+        }
+    }
 }
