@@ -1,0 +1,227 @@
+Different types of errors
+- system error(something wrong with system)
+- programmer error(programmer messed up syntax or logig)
+
+A stack trace is a sequence of functions or method calls that lead to the point where the error occurred.  It works backwards.
+
+A warning is an error that isn't enough to cause the program to crash.
+
+Strict mode is less forgiving and will now throw errors for what used to pass.
+
+Not using strict mode is referred to as "sloppy mode"
+
+to enter strict mode
+
+'use strict';
+
+If engine doesn't support strict mode this line of code will be ignored.
+
+YOu can use strict mode on a per function basis
+
+function strictly() {
+'use strict';
+//function code goes here
+}
+
+self-invoking function
+
+(function() {
+'use strict';
+// All of your code would go inside this function
+}());
+
+if you put 'use strict'; at the beginning of a file it will enforce everything in the file.  Take care when others are coding, because they may have not coded in strict mode.
+
+LINTING TOOLS
+
+they test the quality of Javascript code, beyond just using strict mode.  Designed to highlight sloppy practices or syntax errors and complains if certain style conventions aren't followed.
+
+Great when working in team so everyone can follow the same procedures.
+
+FEATURE DETECTION
+
+To check whether an object or method exists before trying to call it.
+
+to check holodeck API example
+
+if (window.holoDeck) {
+virtualReality.activate();
+}
+
+ensures that no error occurs if browser doesn't support the method.
+
+Can I Use sight is good for checking what different browsers support.
+
+DEBUGGING
+
+THE TRUSTY ALERT
+
+alert() method is the most basic form of debugging.
+
+stops a program until ok is clicked.
+
+example that checks if a person's age is appropriate:
+
+function amIOldEnough(age){
+if (age = 12) {
+alert(age);
+return 'No, sorry.';
+} else if (age < 18) {
+return 'Only if you are accompanied by an adult.';
+}
+else {
+return 'Yep, come on in!';
+}
+}
+
+code throws an error because it assigned 12 to age instead of checking for equality.  to fix put if (age < 21)
+
+
+
+
+USING THE CONSOLE
+
+console.log() can be used to log value of variables at different stages of the program
+
+example:
+
+function amIOldEnough(age){
+console.log(age);
+if (age < 12) {
+console.log(`In the if with ${age}`);
+return 'No, sorry.';
+} else if (age < 18) {
+console.log(`In the else-if with ${age}`);
+return 'Only if you are accompanied by an adult.';
+} else {
+console.log(`In the else with ${age}`);
+return 'Yep, come on in!';
+}
+}
+
+Most modern browsers have a debugging tool that allows you to put breakpoints in code that will pause at certain points.
+
+One of the most useful commands is the debugger keyword.
+
+Allows you to pause the execution of the code to see where the program is currently up to.
+
+example of amIOldEnough function:
+
+function amIOldEnough(age){
+debugger;
+if (age < 12) {
+debugger;
+return 'No, sorry.';
+} else if (age < 18) {
+debugger;
+return 'Only if you are accompanied by an adult.';
+} else {
+debugger;
+return 'Yep, come on in!';
+}
+}
+
+amIOldEnough(16);
+
+
+ERROR OBJECTS
+
+const error = new Error();
+
+or
+
+const error = new Error('Oops, something went wrong');
+
+there are 7 more objects used for specific errors.
+
+RangeError is thrown when a number is outside an allowable range of values.
+
+ReferenceError is thrown when a reference is made to an item that doesn’t exist. For example, calling a function that hasn't been defined.
+
+SyntaxError is thrown when there’s an error in the code’s syntax.
+
+TypeError is thrown when there’s an error in the type of value used; for example, a string is used when a number is expected.
+
+URIError is thrown when there’s a problem encoding or decoding the URI.
+
+InternalError is a non-standard error that is thrown when an error occurs in the JavaScript engine. A common cause of this too much recursion.
+
+
+
+The name property returns the name of the error constructor function used as a string, such as 'Error' or 'ReferenceError'.
+
+The message property returns a description of the error and should be provided as an argument to the Error constructor function.
+
+The stack property will return a stack trace for that error. This is a non-standard property and it’s recommended that it is not safe to use in production sites.
+
+THROWING EXCEPTIONS
+
+The throw statement can be applied to any JavaScript expression, causing the execution of the program to stop. 
+
+these lines of code will cause the program to halt.
+
+throw 2;
+throw 'up';
+throw {toys: 'out of pram'};
+
+Best practice is to throw an error object. 
+
+throw new Error ('something has gone badly wrong!);
+
+EXCEPTION HANDLING
+
+    errors can be hidden from users, but still identified.  We can then deal with the error appropriately. 
+    
+    try, catch and finally
+    
+    If we suspect code will result in an exception we can put it in a try block.
+    
+    function imaginarySquareRoot(number) {
+    'use strict';
+    try {
+    return String(squareRoot(number));
+    } catch(error) {
+    return squareRoot(-number)+'i';
+    }
+    }
+
+The code inside the catch block will only run if an exception is throw inside the try block. 
+
+imaginarySquareood(-49) //no error message shown
+<<'7i'
+
+A finally block can be added after a catch block.  will always be executed after the try or catch block, regardless of whether an exception occurred or not.  We can use this to modify the imaginarySquareRoot() function so that it adds "+ or -" to the answer before returning it:
+
+function imaginarySquareRoot(number) {
+'use strict';
+let answer;
+try {
+answer = String(squareRoot(number));
+} catch(error) {
+answer = squareRoot(-number)+"i";
+} finally {
+return `+ or - ${answer}`;
+}
+}
+
+TESTS
+
+Writing good tests means your code will be less brittle as it develops, and any errors will be identified early on.
+
+A test can simply be a function that tests a piece of code runs as it should.  to test that the square root function returns the correct answer:
+
+function itSquareRoots4() {
+return squartoot(4)===2;
+}
+
+itSquareRoots4();
+<< true
+
+will return true or false.
+
+TEST-DRIVEN DEVELOPMENT
+
+process of writing tests before any actual code.  
+
+
+

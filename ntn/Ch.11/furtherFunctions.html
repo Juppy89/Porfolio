@@ -1,0 +1,375 @@
+function square(x) {
+return x*x;
+}
+
+function sayHello(){
+return `Hello, my name is ${ this.name }`;
+}
+
+const clark = { name: 'Clark' };
+const bruce = { name: 'Bruce' };
+
+sayHello.call(clark);
+<< 'Hello, my name is Clarke'
+
+sayHello.call(bruce);
+<< 'Hello, my name is Bruce'
+
+update sayHello() function to give a more generalized greeting that's provided as an argument.
+
+function sayHello(greeting='Hello'){
+return `${ greeting }, my name is ${ this.name }`;
+}
+
+sayHello.call(clark, 'How do you do');
+<< 'How do you do, my name is Clark'
+
+sayHello.call(bruce);
+<< 'Hello, my name is Bruce'
+
+call method example
+
+square.call(null,4)
+<< 16
+
+apply() method works in same way, except arguments of dunctionare provided as an array, even if there is only one argument.
+
+square.apply(null, [4])
+<< 16
+
+
+CUSTOM PROPERTIES
+
+description property example
+
+square.description = 'Squares a number that is provided as an argument'
+<< 'Squares a number that is provided as an argument'
+
+MEMOIZATION (RESULT CACHING)
+
+If a function takes some time to compute a return value, we can save the result in a cache property. Then if the same argument is used again later, we can return the value from the cache, rather than having to compute the result again. For example, say squaring a number was an expensive computational operation that took a long time. We could rewrite the square() function so it saved each result in a cache object that is a property of the function:
+
+function square(x){
+square.cache = square.cache || {};
+if (!square.cache[x]) {
+square.cache[x] = x*x;
+}
+return square.cache[x]
+}
+
+it returns the following:
+
+square(3);
+<< 9
+
+square(-11);
+<< 121
+
+square.cache;
+<< {"3": 9, "-11": 121}
+
+IMMEDIATELY INVOKED FUNCTION EXPRESSIONS
+
+a function that is invoked as soon as it's defined.
+
+example:
+
+(function(){
+const temp = 'World';
+console.log(`Hello ${temp}`);
+})();
+<< 'Hello World'
+
+IIFE's are a useful way of performing a task while keeping any variables wrapped up within the scope of a function
+
+
+TEMPORARY VARIABLES
+
+placing any code that uses temporary variable inside an IIFE will ensure it's only abailable while the IIFE is invoked, then it'll disappear.
+
+The example that follows uses an IIFE to swap the value of two global variables, a and b.
+
+let a = 1;
+let b = 2;
+
+(()=>{
+const temp = a;
+a = b;
+b = temp;
+})();
+
+a;
+<< 2
+
+b;
+<< 1
+
+console.log(temp);
+<< Error: "temp is not defined'
+
+shows the variable temp doesn't exist after the function has been invoked.
+
+destructuring can be used:
+
+let [a,b] = [1,2];
+[a,b] = [b,a];
+
+a;
+<< 2
+
+b;
+<< 1
+
+INITIALIZATION CODE
+
+The following example logs a welcome message to the console, then eliminates all the temporary variables used in putting the message together:
+
+(function() {
+const name = 'Peter Parker'; // This might be obtained from a cookie in reality
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
+const date = new Date(),today = days[date.getDay()];
+console.log(`Welcome back ${name}. Today is ${today}`);
+
+})();
+<< 'Welcome back Peter Parker. Today is Tuesday'
+
+
+SAFE USE OF STRICT MODE
+
+The safe way to use strict mode is to put it inside an IIFE like so:
+
+(function() {
+'use strict';
+
+// All your code would go inside this function
+
+})();
+
+SELF-CONTAINED CODE BLOCKS
+
+A and B can run code indepentently from eachother.
+
+(function() {
+// block A
+const name = 'Block A';
+console.log(`Hello from ${name}`);
+}());
+
+(function() {
+// block B
+const name = 'Block B';
+console.log(`Hello from ${name}`);
+}());
+
+<<  Hello from Block A
+Hello from Block B
+
+
+FUNCTIONS THAT DEFINE AN REWRITE THEMSELVES
+
+A function can define and redefine itself by assigning an anonymous function to a variable that has the same name as the function.
+
+function party(){
+console.log('Wow this is amazing!');
+party = function(){
+console.log('Been there, got the T-Shirt');
+}
+}
+
+when called once it shows like this:
+
+function party() {
+console.log('Been there, got the T-Shirt');
+}
+
+every time after the first it will log the following:
+
+party();
+<< 'Wow this is amazing!'
+
+party();
+<< 'Been there, got the T-Shirt'
+
+party();
+<< 'Been there, got the T-Shirt'
+
+
+function party(){
+console.log('Wow this is amazing!');
+party = function(){
+console.log('Been there, got the T-Shirt');
+}
+}
+
+const beachParty = party; // note that the party function has not been invoked
+
+beachParty(); // the party() function has now been redefined, even though it hasn't been called explicitly
+<< 'Wow this is amazing!'
+
+party();
+<< 'Been there, got the T-Shirt'
+
+
+beachParty(); // but this function hasn't been redefined
+<< 'Wow this is amazing!'
+
+beachParty(); // no matter how many times this is called it will remain the same
+<< 'Wow this is amazing!
+
+If any properties have previously been set on the function, these will be lost when the function redefines itself.
+
+function party() {
+console.log('Wow this is amazing!');
+party = function(){
+console.log('Been there, got the T-Shirt');
+}
+}
+
+party.music = 'Classical Jazz'; // set a property of the function
+
+party();
+<< "Wow this is amazing!"
+
+party.music; // function has now been redefined, so the property doesn't exist
+<< undefined
+
+callbacks
+
+Here’s an example of a function called wait() that accepts a callback.
+
+function wait(message, callback, seconds){
+setTimeout(callback,seconds * 1000);
+console.log(message);
+}
+
+Now create a callback function:
+
+dunction selfDestruct() {
+console.log('BOOOOM!);
+}
+
+use wait to see how javascript works asynchronously:
+
+wait('This tape will self-destruct in five seconds ... ', selfDestruct, 5);
+console.log('Hmmm, should I accept this mission or not ... ?');
+
+<< 'This tape will self-destruct in five seconds ... '
+<< 'Hmmm, should I accept this mission or not ... ? '
+<< 'BOOOOM!
+
+USING PROMISES HELPS WITH MESSY CALLBACK CODE
+
+When a promise is created, it calls an asynchronous operation and is then said to be pending. It remains in this state while the operation is taking place. At this stage, the promise is said to be unsettled. Once the operation has completed, the promise is said to have been settled. A settled promise can result in two different outcomes:
+
+Resolved or rejected
+
+ASYNC FUNCTIONS
+
+async function loadGame(userName) {
+ try {
+const user = await login(userName);
+const info = await getPlayerInfo (user.id);
+// load the game using the returned info
+}
+
+catch (error){
+throw error;
+}
+}
+
+
+FUNCTIONS THAT RETURN FUNCIONS
+
+function returnHello() {
+console.log('returnHello() called');
+return function() {
+console.log('Hello World!');
+}
+}
+
+returnHello()
+<<returnHello() called
+
+to make use of functiont returned, we need to assign it to a variable:
+
+const hello = returnHello();
+<< returnHello() called
+
+invoke the function by placing parenthesis after variable it was assigned to:
+
+hello()
+<<Hello World!
+
+returns greeting function:
+
+function greeter(greeting = 'Hello') {
+return function() {
+console.log(greeting);
+}
+}
+const englishGreeter = greeter();
+englishGreeter();
+<< Hello
+
+const frenchGreeter = greeter('Bonjour');
+frenchGreeter();
+<< Bonjour
+
+
+const germanGreeter = greeter('Guten Tag');
+germanGreeter();
+<< Guten Tag
+
+CLOSURES
+
+A closure is a reference to a variable that was created inside the scope of another function, but is then kept alive and used in another part of the program.
+
+
+GENERATORS
+
+special functions used to produce iterators that maintain the state of value.
+
+use * to define a generator.
+
+function* exampleGenerator() {
+//code for the generator goes here
+}
+
+For example, we can create a generator to produce a Fibonacci-style number series (a sequence that starts with two numbers and the next number is obtained by adding the two previous numbers together), using the following code:
+
+function* fibonacci(a,b) {
+let [ prev,current ] = [ a,b ];
+while(true) {
+[prev, current] = [current, prev + current];
+yield current;
+}
+}
+
+a PURE FUNCTION adheres to the following rules.
+
+“functional programming that JavaScript excels at.
+
+Functional programming is a programming paradigm. Other examples of programming paradigms include object oriented programming and procedural programming. JavaScript is a multi-paradigm language, meaning that it can be used to program in a variety of paradigms (and sometimes a mash-up of them!). This flexibility is an attractive feature of the language, but it also makes it harder to adopt a particular coding style as the principles are not enforced by the language. A language such as Haskell, which is a purely functional language, is much stricter about adhering to the principles of functional programming.
+
+Pure Functions
+
+A key aspect of functional programming is its use of pure functions. A pure function is a function that adheres to the following rules:
+
+1) The return value of a pure function should only depend on the values provided as arguments. It doesn't rely on values from somewhere else in the program.
+
+2) There are no side-effects. A pure function doesn't change any values or data elsewhere in the program. It only makes non-destructive data transformations and returns new values, rather than altering any of the underlying data.
+
+3) Referential transparency. Given the[…]
+
+
+Here’s an example of a pure function that achieves the same result:
+
+const number = 42;
+
+function pureAdd(x,y) {
+return x + y;
+}
+
+result = pureAdd(number,10);
+<< 52
+
