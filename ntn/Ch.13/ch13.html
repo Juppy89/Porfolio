@@ -1,0 +1,100 @@
+NOTES
+
+
+
+Ajax is a technique that allows web pages to communicate asynchronously with a server, and it dynamically updates web pages without reloading. This enables data to be sent and received in the background, as well as portions of a page to be updated in response to user events, while the rest of the program continues to run.
+
+CLIENTS AND SERVERS
+
+A client/web browser requests a source/webpage from a server, which processes the request and sends back a response to the client.
+
+Stands for Asynchronous JavaScript and XML
+
+FETCH API
+
+A standard for requesting and sending data asynchronously across a network.
+
+Basic example
+
+fetch('https://example.com/data')
+.then( // code that handles the response )
+.catch( // code that runs if the server returns an error )
+
+
+const url = 'https:example.com/data';
+
+fetch(url)
+.then((response) => {
+if(response.ok) {
+return response;
+}
+throw Error(response.statusText);
+})
+.then( response => // do something with response )
+.catch( error => console.log('There was an error!') )
+
+
+
+EXAMPLD OF HOW A REDIRECT RESPONSE PROMISE WOULD BE RESOLVED
+
+fetch(url)
+.then( response => response.redirect(newURL)); // redirects to another URL
+.then( // do something else )
+.catch( error => console.log('There was an error: ', error))
+
+
+TEXT RESPONSE PROMISE RESOLVED EXAMPLE
+
+
+fetch(url)
+.then( response => response.text() ); // transforms the text stream into a JavaScript string
+.then( text => console.log(text) )
+.catch( error => console.log('There was an error: ', error))
+
+FILE RESPONSE PROMISE EXAMPLE
+
+fetch(url)
+.then( response => response.blob() ); // transforms the data into a blob object
+.then( blob => console.log(blob.type) )
+.catch( error => console.log('There was an error: ', error))
+
+
+JSON RESPONSE PROMISE EXAMPLE
+
+fetch(url)
+.then( response => response.json() ); // transforms the JSON data into a JavaScript object
+.then( data => console.log(Object.entries(data)) )
+.catch( error => console.log('There was an error: ', error))
+
+HEADERS
+
+are used to pass on any additional information about a request or response.
+
+The constructor function can be provided with an optional argument containing any initial header values:
+
+const headers = new Headers({ 'Content-Type': 'text/plain', 'Accept-Charset' : 'utf-8', 'Accept-Encoding':'gzip,deflate' })
+
+
+PUTTING IT ALL TOGETHER
+
+We can use the Headers, Request and Response objects to put together a typical example that sets up the URL, Request and Headers before calling the fetch() method:
+
+const url = 'https:example.com/data';
+const headers = new Headers({ 'Content-Type': 'text/plain', 'Accept-Charset' : 'utf-8', 'Accept-Encoding':'gzip,deflate' })
+
+const request = (url,{
+headers: headers
+})
+
+fetch(request)
+.then( function(response) {
+if(response.ok) {
+return response;
+}
+throw Error(response.statusText);
+})
+.then( response => // do something with response )
+.catch( error => console.log('There was an error!') )
+
+
+
