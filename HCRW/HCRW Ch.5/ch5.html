@@ -1,0 +1,216 @@
+AUDIO AND VIDEO NOTES
+
+
+Video Container Formats
+Video on the Web is based on container formats and codecs. A container is a wrapper that stores all the necessary data that comprises the video file being ac- cessed, much like a ZIP file wraps or contains files. Some examples of well-known video containers include Flash Video (.flv), MPEG-4 (.mp4 or .m4v), and AVI (.avi).
+
+
+
+The simplest way to include HTML5 video in a web page is as follows: <video src="example.webm"></video>
+
+Similar to the img element, the video element should also include width and height attributes:
+<video src="example.webm" width="375" height="280"></video>
+
+No embedded video would be complete without giving the user the ability to play, pause, stop, seek through the video, or adjust the volume. HTML5’s video element includes a controls attribute that does just that:
+<video src="example.webm" width="375" height="280" controls></video>
+
+
+AUTOPLAY ATTRIBUTE
+
+<video src="example.webm" width="375" height="280" controls ➥autoplay></video>
+
+LOOP ATTRIBUTE
+
+this attribute, when present, will tell the browser to “seek back to the start of the media resource upon reaching the end.”
+So if you created a web page whose sole intention was to annoy its visitors, it might contain code like this:
+
+<video src="example.webm" width="375" height="280" controls ➥autoplay loop></video>
+
+
+preload attribute accepts one of three values:
+
+
+auto
+A value of auto indicates that the video and its associated metadata will start loading before the video is played. This way, the browser can start playing the video more quickly when the user requests it.
+
+none
+A value of none indicates that the video shouldn’t load in the background before the user presses play.
+
+
+metadata
+This works like none, except that any metadata associated with the video (for example, its dimensions, duration, and the like) can be preloaded, even though the video itself won’t be.
+
+
+
+THE POSTER ATTRIBUTE
+
+The poster attribute makes it easy to choose such a teaser. This attribute, similar to src, will point to an image file on the server by means of a URL.
+Here’s how our video element would look with a poster attribute defined:
+
+<video src="example.webm" width="375" height="280" poster="teaser.jpg" controls></video>
+
+AUDIO ATTRIBUTE
+
+<video src="example.webm" width="375" height="280" ➥poster="teaser.jpg" audio="muted"></video>
+
+
+To allow in- clusion of multiple video formats, the video element allows source elements to be defined so that you can allow every user agent to display the video using the format of its choice. These elements serve the same function as the src attribute on the video element; so if you’re providing source elements, there’s no need to specify a src for your video.
+Taking current browser support into consideration, here’s how we might declare our source elements:
+
+<source src="example.mp4" type="video/mp4">
+<source src="example.webm" type="video/webm">
+<source src="example.ogv" type="video/ogg">
+
+
+The type attribute also allows a codec parameter to be specified, which defines the video and audio codecs for the requested file. Here’s how our source elements will look with the codecs specified:
+
+<source src="example.mp4"
+        ➥type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+<source src="example.webm" type='video/webm; codecs="vp8, vorbis"'> <source src="example.ogv" type='video/ogg; codecs="theora, vorbis"'>
+
+MIME TYPES
+
+
+Content-type, also known as the MIME type, tells the browser what kind of content they’re looking at. Is this a text file? If so, what kind? HTML? JavaScript? Is this a video file? The content-type answers these questions for the browser. Every time your browser requests a page, the server sends “headers” to your browser before sending any files. These headers tell your browser how to interpret the file that follows. Content-type is an example of one of the headers the server sends to the browser.
+
+AddType video/ogg  .ogv
+AddType video/mp4  .mp4
+AddType video/webm .webm
+
+Here’s the HTML we’ll be using to represent the different parts of the video controls:
+
+<div id="controls" class="hidden">
+    <a id="playPause">Play/Pause</a>
+    <span id="timer">00:00</span>
+    <a id="muteUnmute">Mute/Unmute</a>
+</div>
+
+INTRODUCING THE MEDIA ELEMENTS API
+
+In order to work with our new custom controls, we’ll first cache them by placing them into JavaScript variables. Here are the first few lines of our code:
+
+var videoEl = $('video')[0],
+playPauseBtn = $('#playPause'),
+vidControls = $('#controls'),
+muteBtn = $('#muteUnmute'),
+timeHolder = $('#timer');
+
+So we’re going to remove the controls attribute in our JavaScript, like this:
+
+videoEl.removeAttribute("controls");
+
+The next step is to make our own custom controls visible.
+
+videoEl.addEventListener('canplaythrough', function () {
+vidControls.removeClass("hidden");
+}, false);
+
+PLAYING AND PAUSING THE VIDEO
+
+playPauseBtn.bind('click', function () {
+if (videoEl.paused) {
+videoEl.play();
+} else {
+videoEl.pause();
+}
+});
+
+
+You’ll notice that something’s missing from our if/else construct. Earlier, we showed you a couple of screenshots displaying the controls in their two states. We need to use JavaScript to alter the background position of our sprite image; we want to change the button from “play me” to “pause me.”
+Here’s how we’ll do that:
+
+videoEl.addEventListener('play', function () {
+playPauseBtn.addClass("playing");
+}, false);
+videoEl.addEventListener('pause', function () {
+playPauseBtn.removeClass("playing");
+}, false);
+
+
+MUTING AND UNMUTING THE VIDEO'S AUDIO TRACK
+
+muteBtn.bind('click', function () {
+if (videoEl.muted) {
+videoEl.muted = false;
+} else {
+videoEl.muted = true;
+}
+});
+
+
+
+But unlike the play/pause button, we don’t have the ability to listen for mute and unmute events. Instead, the API offers the volumechange event:
+
+videoEl.addEventListener('volumechange', function () {
+if (videoEl.muted) {
+muteBtn.addClass("muted");
+} else {
+muteBtn.removeClass("muted");
+}
+}, false);
+
+
+RESPONDING WHEN VIDEO ENDS PLAYBACK
+
+videoEl.addEventListener('ended', function () {
+videoEl.currentTime = 0;
+videoEl.pause();
+}, false);
+
+UPDATING TIME AS VIDEO PLAYS
+
+videoEl.addEventListener('timeupdate', function () {
+timeHolder[0].innerHTML = secondsToTime(videoEl.currentTime);
+}, false);
+
+
+To format the seconds into a more user-friendly time, we’ve written a function called secondsToTime(), and called it from our timeupdate handler above. We don’t want to show the milliseconds in this case, so our function rounds the timer to the nearest second. Here’s the start of our function:
+
+
+var h = Math.floor(s / (60 * 60)),
+dm = s % (60 * 60),
+m = Math.floor(dm / 60),
+ds = dm % 60,
+secs = Math.ceil(ds);
+
+
+if (secs === 60) {
+secs = 0;
+m = m + 1;
+}
+if (secs < 10) {secs = "0" + secs;
+              }
+
+              if (m === 60) {
+              m = 0;
+              h = h + 1; }
+              if (m < 10) {
+m = "0" + m;
+}
+
+CURRENT TIME OF VIDEO IN CORRECT FORMAT:
+
+if (h === 0) {
+fulltime = m + ":" + secs;
+} else {
+fulltime = h + ":" + m + ":" + secs;
+}
+return fulltime;
+
+timeHolder[0].innerHTML = secondsToTime(videoEl.currentTime);
+
+
+The track element is still in flux, but if included as a child of the video element, it would look like the example shown here (similar to an example given in the spec):
+
+<video src="brave.webm">
+    <track kind="subtitles" src="brave.en.vtt" srclang="en"
+           ➥label="English">
+    <track kind="captions" src="brave.en.vtt" srclang="en"
+           ➥label="English for the Hard of Hearing">
+    <track kind="subtitles" src="brave.fr.vtt" srclang="fr"
+           ➥label="Français">
+    <track kind="subtitles" src="brave.de.vtt" srclang="de"
+           ➥label="Deutsch"> </video>
+
+
+
